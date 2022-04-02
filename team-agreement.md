@@ -57,3 +57,7 @@ We will be performing our practice run of our Final Presentation on Saturday Apr
 All of our code will reside on github complete with attatchements.  The only part not on GitHub, but it will be linked are sources and Presentation Deck. We have created a repository with Zayah as the owner and Justin and I are contributors. Our Git flow will to be to ACP when a milestone is met in our code and as previously stated for overnight work we will review as a team the following day prior to merging.
 
 We will be utilizing a PR workflow woth th three of us. Zayah will be primary to merge in GitHub with backup Natalija for any extenuating circumstances. We will merge as needed, before breaks, and by end of day. Aside for designated times to merge, we will communicate it as we need to change tasks through Slack.
+
+### Pitch Ideas ###
+
+We brainstormed ideas and decided to create a Character Sheet for D&D. The purpose of the character sheet is to digitize storage and organization of a character or characters that the user inputs information to create. A random number generator deterines the dice roll that it would land on and adjusts the character sheet as appropriate. The MVP for our project is to have one character sheet active. Stretch goal is to make multiple character sheets.
