@@ -1,1 +1,60 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Edit</title>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <form>
+        <label>
+          Name
+          <input name="nameInput" required="required" />
+        </label>
+        <label>
+          Race
+          <input name="raceInput" required="required" />
+        </label>
+        <label>
+          Class
+          <select name="classInput" required="required" id="classList"></select>
+        </label>
+
+        <feildset>
+          <label>
+            <input name="strengthInput" required="required" type="number" />
+          </label>
+          <label>
+            <input name="dexterityInput" required="required" type="number" />
+          </label>
+          <label>
+            <input name="constitutionInput" required="required" type="number" />
+          </label>
+          <label>
+            <input name="intelligenceInput" required="required" type="number" />
+          </label>
+          <label>
+            <input name="wisdomInput" required="required" type="number" />
+          </label>
+          <label>
+            <input name="charismaInput" required="required" type="number" />
+          </label>
+        </feildset>
+        <input type="submit" />
+      </form>
+      <label>
+        View Page
+        <select name="pageSelect" id="characterList"></select>
+      </label>
+      <label>
+        Delete a Charater?
+        <select name="deleteSelect" id="deleteList"></select>
+      </label>
+    </main>
+    <footer></footer>
+    <script src="js/app.js"></script>
+  </body>
+</html>
