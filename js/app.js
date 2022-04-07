@@ -1,12 +1,6 @@
 'use strict';
-let charismaModifier = modifier(Character.charisma);
-let strengthModifier = modifier(Character.strength);
-let dexterityModifier = modifier(Character.dexterity);
-let constitutionModifier = modifier(Character.constitution);
-let intelligenceModifier = modifier(Character.intelligence);
-let wisdomModifier = modifier(Character.wisdom);
 
-//TODO: RNG for disagreements
+//DONE: RNG for disagreements
 function decision() {
   return Math.floor(Math.random() * (3 - 1 + 1) + 1);
 }
@@ -36,8 +30,14 @@ const Character = function (
   this.charisma = charisma;
   this.charClass = charClass;
 };
+let charismaModifier = modifier(Character.charisma);
+let strengthModifier = modifier(Character.strength);
+let dexterityModifier = modifier(Character.dexterity);
+let constitutionModifier = modifier(Character.constitution);
+let intelligenceModifier = modifier(Character.intelligence);
+let wisdomModifier = modifier(Character.wisdom);
 
-const sheets = [];
+let sheets = [];
 
 //DONE: array to character sheets
 
@@ -46,23 +46,36 @@ function getRandomNumber() {
   // return Math.floor(Math.random(1 * 20) + 1);\
   return Math.floor(Math.random() * (20 - 1 + 1) + 1);
 }
-console.log(());
+//console.log(());
 
 //DONE: modulo for stats (for every 2 above 10 in a stat + 1 to the roll and reverse for every two below)
 
- function modifier(stat){
-   let result = math.floor(stat - 10 / 2);
- }
-//TODO: save, load, delete for local storage
+function modifier(stat) {
+  let result = Math.floor(stat - 10 / 2);
+  return result;
+}
+function diceRoll(modifier) {
+  let roll = getRandomNumber();
+  console.log(`dice roll is, ${roll}`);
+  let result = roll + modifier;
+  return result;
+}
+//Partial: save, load, delete for local storage
+function save() {
+  localStorage.setObject('sheets', sheets);
+}
+function load() {
+  sheets = localStorage.getObject('sheets');
+}
+// function delete() {
+//  load();
+// }
 
 //TODO: render function for character sheet
 
 //TODO: dice roll button or event listener (weigh pros/cons)
-//TODO: event listener for load
-//TODO: event listener for delete
-//TODO: event listener for submit
 
-//TODO: housekeeping: adding markdown files, links
+//Partial: housekeeping: adding markdown files, links
 
 Storage.prototype.setObject = function (key, value) {
   this.setItem(key, JSON.stringify(value)); //automating the stringify for the setObject that we save into storage.
@@ -73,14 +86,16 @@ Storage.prototype.getObject = function (key) {
   return value && JSON.parse(value); //automating the parse for our getObject to pull out of storage.
 };
 
-List.prototype.addSheet = function (character) {
-  this.sheets.push(character);
-};
+//List.prototype.addSheet = function (character) {
+//this.sheets.push(character);
+//};
 
 function handleSubmit(event) {
   // Goal: Take our information and make new Character, then store in List
   event.preventDefault();
   // new Character();
+  let newCharacter = addToCharacter();
+  sheets.push.newCharacter;
 }
 
 function addToCharacter(event) {
@@ -118,4 +133,10 @@ function render() {
   showList(); // TODO: DOM manipulation stuff
 }
 
+//TODO: event listener for load
+
+//TODO: event listener for delete
+
+//DONE: event listener for submit
 submitForm.addEventListener('submit', handleSubmit);
+
