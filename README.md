@@ -9,7 +9,7 @@ A D&D character sheet that is built by user inputs, stores the six stats and sav
 ### Links and Resources
 >[Final Presentation Deck](https://docs.google.com/presentation/d/17xOtmu09rdLu9oiC5bMPpU_ofmGuOGwQF210Mpj15LQ/edit?usp=sharing)
 
-- Placeholder until further links are found.
+>[User Stories](https://github.com/ZayahPapaya/simplified-character-sheet/issues/14)
 
 ### Reflections and Comments
 
