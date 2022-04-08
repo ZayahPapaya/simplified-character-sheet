@@ -11,6 +11,8 @@ A D&D character sheet that is built by user inputs, stores the six stats and sav
 
 >[User Stories](https://github.com/ZayahPapaya/simplified-character-sheet/issues/14)
 
+>[Domain Model](img/domainModel.png)  
+
 ### Reflections and Comments
 
 - Teamwork is a must!

@@ -54,7 +54,7 @@ Presentation:
 
 ### Schedule your practice session ###
 
-We will be performing our practice run of our Final Presentation on Saturday April 9th as we get to a break point but no later then 3 pm to allow time to make adjustments.
+We will be performing our practice run of our Final Presentation on Tuesday April 12th as we get to a break point but no later then 3 pm to allow time to make adjustments.
 
 All of our code will reside on GitHub complete with attachements.  The only part not on GitHub, but it will be linked are sources and Presentation Deck. We have created a repository with Zayah as the owner and Justin and I are contributors. Our Git flow will to be to ACP when a milestone is met in our code and as previously stated for overnight work we will review as a team the following day prior to merging.
 
