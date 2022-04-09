@@ -5,11 +5,14 @@
 //   return Math.floor(Math.random() * (3 - 1 + 1) + 1);
 // }
 // console.log(decision());
+let characterName = document.getElementById('name');
+let race = document.getElementById('race');
+let characterClass = document.getElementById('class');
+let backgrounds = document.getElementById('backgrounds');
 
 let submitForm = document.getElementById('form');
 let modList = document.getElementById('modList');
 let statValueList = document.getElementById('statValueList');
-let statNameList = document.getElementById('statNameList');
 let viewPage = document.getElementById('characterList');
 let deletePage = document.getElementById('deleteList');
 let formDeleteButton = document.getElementById('deleteButton');
@@ -59,18 +62,18 @@ function modifier(stat) {
 }
 function diceRoll(modifier) {
   let roll = getRandomNumber();
-  console.log(`dice roll is, ${roll}`);
+  console.log(`dice roll is, ${roll + modifier}`);
   let result = roll + modifier;
   return result;
 }
 //Partial: save, load, delete for local storage
 function save() {
   localStorage.setObject('sheets', sheets);
-  localStorage.setObject('loadCharacter', loadCharacter)
+  localStorage.setObject('loadCharacter', loadCharacter);
 }
-function load() {
-  sheets = localStorage.getObject('sheets');
-}
+// function load() {
+//   sheets = localStorage.getObject('sheets');
+// }
 // function delete() {
 //  load();
 // }
@@ -159,13 +162,13 @@ function render() {
 }
 function clear() {
   if(viewPage){
-  while (viewPage.firstChild) {
-    viewPage.removeChild(viewPage.firstChild);
+    while (viewPage.firstChild) {
+      viewPage.removeChild(viewPage.firstChild);
+    }
+    while (deletePage.firstChild) {
+      deletePage.removeChild(deletePage.firstChild);
+    }
   }
-  while (deletePage.firstChild) {
-    deletePage.removeChild(deletePage.firstChild);
-  }
-}
 }
 function handleDelete(event) {
   event.preventDefault();
@@ -180,20 +183,19 @@ function handleDelete(event) {
 
 function populateForm() {
   if(viewPage){
-  for (let i = 0; i < sheets.length; i++) {
-    let formTarget = document.createElement('option');
-    formTarget.textContent = sheets[i].charName;
-    viewPage.appendChild(formTarget);
+    for (let i = 0; i < sheets.length; i++) {
+      let formTarget = document.createElement('option');
+      formTarget.textContent = sheets[i].charName;
+      viewPage.appendChild(formTarget);
+    }
+    for (let i = 0; i < sheets.length; i++) {
+      let formTarget = document.createElement('option');
+      formTarget.textContent = sheets[i].charName;
+      deletePage.appendChild(formTarget);
+    }
   }
-  for (let i = 0; i < sheets.length; i++) {
-    let formTarget = document.createElement('option');
-    formTarget.textContent = sheets[i].charName;
-    deletePage.appendChild(formTarget);
-  }
-}
 }
 function display(character) {
-  
   let strengthModifier = modifier(character.charName.strength);
   let dexterityModifier = modifier(character.charName.dexterity);
   let constitutionModifier = modifier(character.charName.constitution);
@@ -215,6 +217,29 @@ function display(character) {
   length[3].textContent = `${intelligenceModifier}`;
   length[4].textContent = `${wisdomModifier}`;
   length[5].textContent = `${charismaModifier}`;
+  characterName.textContent =`${character.charName.charName}`;
+  race.textContent = `${character.charName.race}`;
+  characterClass.textContent = `${character.charName.charClass}`;
+
+  length = backgrounds.children;
+  for (let i = 0; i < length.length; i++) {
+    length[i].addEventListener('click', imageHandler);
+  }
+}
+function imageHandler(event) {
+  event.preventDefault();
+  loadList();
+  let keys = Object.keys(loadCharacter.charName);
+  // console.log(keys);
+  let values = Object.values(loadCharacter.charName);
+  // console.log(values);
+
+  console.log(loadCharacter.charName);
+  for (let i = 0; i < keys.length; i++) {
+    if (keys[i] === event.target.id) {
+      alert (diceRoll(modifier(values[i])));
+    }
+  }
 }
 
 if (formDeleteButton) {
@@ -228,5 +253,6 @@ if (submitForm) {
 if (viewButton) {
   viewButton.addEventListener('submit', handleView);
 }
+
 
 render();
