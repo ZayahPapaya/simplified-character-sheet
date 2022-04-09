@@ -14,7 +14,7 @@ let viewPage = document.getElementById('characterList');
 let deletePage = document.getElementById('deleteList');
 let formDeleteButton = document.getElementById('deleteButton');
 let viewButton = document.getElementById('viewButton');
-
+let loadCharacter = false;
 //DONE: constructor function that makes charactersheet
 const Character = function (
   charName,
@@ -37,12 +37,6 @@ const Character = function (
   this.charisma = charisma;
   this.charClass = charClass;
 };
-let charismaModifier = modifier(Character.charisma);
-let strengthModifier = modifier(Character.strength);
-let dexterityModifier = modifier(Character.dexterity);
-let constitutionModifier = modifier(Character.constitution);
-let intelligenceModifier = modifier(Character.intelligence);
-let wisdomModifier = modifier(Character.wisdom);
 
 let sheets = [];
 
@@ -58,7 +52,9 @@ function getRandomNumber() {
 //DONE: modulo for stats (for every 2 above 10 in a stat + 1 to the roll and reverse for every two below)
 
 function modifier(stat) {
-  let result = Math.floor(stat - 10 / 2);
+  stat = stat - 10;
+  stat = stat / 2;
+  let result = Math.floor(stat);
   return result;
 }
 function diceRoll(modifier) {
@@ -70,6 +66,7 @@ function diceRoll(modifier) {
 //Partial: save, load, delete for local storage
 function save() {
   localStorage.setObject('sheets', sheets);
+  localStorage.setObject('loadCharacter', loadCharacter)
 }
 function load() {
   sheets = localStorage.getObject('sheets');
@@ -104,7 +101,7 @@ function handleSubmit(event) {
   addToCharacter();
   render();
 }
-let loadCharacter = false;
+
 function handleView(event) {
   event.preventDefault();
   let holdObject = localStorage.getObject('sheets');
@@ -114,6 +111,7 @@ function handleView(event) {
 
     if (viewPage.value === holdObject[i].charName) {
       loadCharacter = new Character(holdObject[i]);
+      save();
       window.location.replace('sheet.html');
       display(loadCharacter);
     }
@@ -122,7 +120,7 @@ function handleView(event) {
 
 function addToCharacter() {
   let nameInput = document.getElementById('nameInput').value;
-  let classInput = document.getElementById('nameInput').value;
+  let classInput = document.getElementById('classInput').value;
   let raceInput = document.getElementById('raceInput').value;
   let strengthInput = document.getElementById('strengthInput').value;
   let dexterityInput = document.getElementById('dexterityInput').value;
@@ -148,23 +146,26 @@ function addToCharacter() {
 
 function loadList() {
   sheets = localStorage.getObject('sheets') || [];
+  loadCharacter = localStorage.getObject('loadCharacter') || false;
 }
 
 function render() {
   loadList();
   clear();
   populateForm();
-  if (loadCharacter) {
+  if (modList) {
     display(loadCharacter);
   }
 }
 function clear() {
+  if(viewPage){
   while (viewPage.firstChild) {
     viewPage.removeChild(viewPage.firstChild);
   }
   while (deletePage.firstChild) {
     deletePage.removeChild(deletePage.firstChild);
   }
+}
 }
 function handleDelete(event) {
   event.preventDefault();
@@ -178,32 +179,44 @@ function handleDelete(event) {
 }
 
 function populateForm() {
+  if(viewPage){
   for (let i = 0; i < sheets.length; i++) {
     let formTarget = document.createElement('option');
     formTarget.textContent = sheets[i].charName;
-    console.log(formTarget);
-    console.log(viewPage);
     viewPage.appendChild(formTarget);
   }
   for (let i = 0; i < sheets.length; i++) {
     let formTarget = document.createElement('option');
     formTarget.textContent = sheets[i].charName;
-    console.log(formTarget);
-    console.log(viewPage);
     deletePage.appendChild(formTarget);
   }
 }
+}
 function display(character) {
-  let formTarget;
-  for (let i = 0; i < modList.length; i++) {
-    formTarget = document.querySelector(`#statValueList li: nth-child(${i})`);
-    formTarget.textContent = character[i + 3];
-  }
+  
+  let strengthModifier = modifier(character.charName.strength);
+  let dexterityModifier = modifier(character.charName.dexterity);
+  let constitutionModifier = modifier(character.charName.constitution);
+  let intelligenceModifier = modifier(character.charName.intelligence);
+  let wisdomModifier = modifier(character.charName.wisdom);
+  let charismaModifier = modifier(character.charName.charisma);
+  let length = statValueList.children;
+  length[0].textContent = `${character.charName.strength}`;
+  length[1].textContent = `${character.charName.dexterity}`;
+  length[2].textContent = `${character.charName.constitution}`;
+  length[3].textContent = `${character.charName.intelligence}`;
+  length[4].textContent = `${character.charName.wisdom}`;
+  length[5].textContent = `${character.charName.charisma}`;
+
+  length = modList.children;
+  length[0].textContent = `${strengthModifier}`;
+  length[1].textContent = `${dexterityModifier}`;
+  length[2].textContent = `${constitutionModifier}`;
+  length[3].textContent = `${intelligenceModifier}`;
+  length[4].textContent = `${wisdomModifier}`;
+  length[5].textContent = `${charismaModifier}`;
 }
 
-//TODO: event listener for load
-
-//TODO: event listener for delete
 if (formDeleteButton) {
   formDeleteButton.addEventListener('submit', handleDelete);
 }
