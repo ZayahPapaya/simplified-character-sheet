@@ -9,6 +9,7 @@ console.log(decision());
 let submitForm = document.getElementById('form');
 let modList = document.getElementById('modList');
 let statValueList = document.getElementById('statValueList');
+let statNameList = document.getElementById('statNameList');
 
 //DONE: constructor function that makes charactersheet
 const Character = function (
@@ -98,13 +99,13 @@ function handleSubmit(event) {
   // new Character();
   let newCharacter = addToCharacter();
   sheets.push.newCharacter;
-};
+}
 let loadCharacter = false;
 function handleDropdown(event) {
   let holdObject = localStorage.getObject('sheets');
-  for (let i = 0; i < holdObject.length; i++){
-    if (event.value = holdObject.name) {
-      loadCharacter = new Character(holdObject[i])
+  for (let i = 0; i < holdObject.length; i++) {
+    if ((event.value = holdObject.name)) {
+      loadCharacter = new Character(holdObject[i]);
       window.location.replace('sheet.html');
       display(loadCharacter);
     }
@@ -136,17 +137,22 @@ function addToCharacter(event) {
 }
 
 function loadList() {
-  const placeholder = localStorage.getObject('sheets') || [];
-  list = new List(placeholder);
+  sheets = localStorage.getObject('sheets') || [];
 }
 
 function render() {
   loadList();
-  if(loadCharacter){display(loadCharacter)};
+  if (loadCharacter) {
+    display(loadCharacter);
+  }
 }
 
 function display(character) {
-
+  let formTarget;
+  for (let i = 0; i < modList.length; i++) {
+    formTarget = document.querySelector(`#statValueList li: nth-child(${i})`);
+    formTarget.textContent = character[i + 3];
+  }
 }
 
 //TODO: event listener for load
