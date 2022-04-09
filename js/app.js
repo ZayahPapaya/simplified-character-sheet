@@ -7,6 +7,8 @@ function decision() {
 console.log(decision());
 
 let submitForm = document.getElementById('form');
+let modList = document.getElementById('modList');
+let statValueList = document.getElementById('statValueList');
 
 //DONE: constructor function that makes charactersheet
 const Character = function (
@@ -96,6 +98,17 @@ function handleSubmit(event) {
   // new Character();
   let newCharacter = addToCharacter();
   sheets.push.newCharacter;
+};
+let loadCharacter = false;
+function handleDropdown(event) {
+  let holdObject = localStorage.getObject('sheets');
+  for (let i = 0; i < holdObject.length; i++){
+    if (event.value = holdObject.name) {
+      loadCharacter = new Character(holdObject[i])
+      window.location.replace('sheet.html');
+      display(loadCharacter);
+    }
+  }
 }
 
 function addToCharacter(event) {
@@ -129,8 +142,11 @@ function loadList() {
 
 function render() {
   loadList();
-  clearList(); // TODO: delete the page?
-  showList(); // TODO: DOM manipulation stuff
+  if(loadCharacter){display(loadCharacter)};
+}
+
+function display(character) {
+
 }
 
 //TODO: event listener for load
@@ -139,4 +155,4 @@ function render() {
 
 //DONE: event listener for submit
 submitForm.addEventListener('submit', handleSubmit);
-
+render();
