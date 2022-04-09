@@ -15,7 +15,7 @@ li {
     grid-template-rows: 1fr 1fr;
 }
 #modList {
-    display: grid;
+    /* display: grid; */
     display:inline-block;
     position: relative;
     width: auto;
@@ -27,19 +27,19 @@ li {
     display:inline-block;
     flex-direction: row;
     justify-items: flex-start; 
-    width: auto;
+    /* width: auto;
     background-position: x;
     left: 0px;
-    z-index: -1;
+    z-index: -1; */
 }
 #statValueList {
-    display: grid;
+    /* display: grid; */
     width: auto;
     height: 10vh;
 }
 
 #statNameList {
-    display: grid;
+    /* display: grid; */
     display:inline-block;
     position: relative;
     width: auto;
