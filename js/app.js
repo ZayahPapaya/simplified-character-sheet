@@ -1,15 +1,20 @@
 'use strict';
 
 //DONE: RNG for disagreements
-function decision() {
-  return Math.floor(Math.random() * (3 - 1 + 1) + 1);
-}
-console.log(decision());
+// function decision() {
+//   return Math.floor(Math.random() * (3 - 1 + 1) + 1);
+// }
+// console.log(decision());
 
 let submitForm = document.getElementById('form');
 let modList = document.getElementById('modList');
 let statValueList = document.getElementById('statValueList');
-
+let statNameList = document.getElementById('statNameList');
+let viewPage = document.getElementById('characterList');
+let deletePage = document.getElementById('deleteList');
+let formDeleteButton = document.getElementById('deleteButton');
+let viewButton = document.getElementById('viewButton');
+let loadCharacter = false;
 //DONE: constructor function that makes charactersheet
 const Character = function (
   charName,
@@ -32,12 +37,6 @@ const Character = function (
   this.charisma = charisma;
   this.charClass = charClass;
 };
-let charismaModifier = modifier(Character.charisma);
-let strengthModifier = modifier(Character.strength);
-let dexterityModifier = modifier(Character.dexterity);
-let constitutionModifier = modifier(Character.constitution);
-let intelligenceModifier = modifier(Character.intelligence);
-let wisdomModifier = modifier(Character.wisdom);
 
 let sheets = [];
 
@@ -53,7 +52,9 @@ function getRandomNumber() {
 //DONE: modulo for stats (for every 2 above 10 in a stat + 1 to the roll and reverse for every two below)
 
 function modifier(stat) {
-  let result = Math.floor(stat - 10 / 2);
+  stat = stat - 10;
+  stat = stat / 2;
+  let result = Math.floor(stat);
   return result;
 }
 function diceRoll(modifier) {
@@ -65,6 +66,7 @@ function diceRoll(modifier) {
 //Partial: save, load, delete for local storage
 function save() {
   localStorage.setObject('sheets', sheets);
+  localStorage.setObject('loadCharacter', loadCharacter)
 }
 function load() {
   sheets = localStorage.getObject('sheets');
@@ -96,24 +98,29 @@ function handleSubmit(event) {
   // Goal: Take our information and make new Character, then store in List
   event.preventDefault();
   // new Character();
-  let newCharacter = addToCharacter();
-  sheets.push.newCharacter;
-};
-let loadCharacter = false;
-function handleDropdown(event) {
+  addToCharacter();
+  render();
+}
+
+function handleView(event) {
+  event.preventDefault();
   let holdObject = localStorage.getObject('sheets');
-  for (let i = 0; i < holdObject.length; i++){
-    if (event.value = holdObject.name) {
-      loadCharacter = new Character(holdObject[i])
+  console.log(holdObject);
+  for (let i = 0; i < holdObject.length; i++) {
+    console.log(viewPage.value, holdObject.charName);
+
+    if (viewPage.value === holdObject[i].charName) {
+      loadCharacter = new Character(holdObject[i]);
+      save();
       window.location.replace('sheet.html');
       display(loadCharacter);
     }
   }
 }
 
-function addToCharacter(event) {
+function addToCharacter() {
   let nameInput = document.getElementById('nameInput').value;
-  let classInput = document.getElementById('nameInput').value;
+  let classInput = document.getElementById('classInput').value;
   let raceInput = document.getElementById('raceInput').value;
   let strengthInput = document.getElementById('strengthInput').value;
   let dexterityInput = document.getElementById('dexterityInput').value;
@@ -133,26 +140,93 @@ function addToCharacter(event) {
     charismaInput
   );
   sheets.push(everyCharacter);
+  console.log(sheets);
+  save();
 }
 
 function loadList() {
-  const placeholder = localStorage.getObject('sheets') || [];
-  list = new List(placeholder);
+  sheets = localStorage.getObject('sheets') || [];
+  loadCharacter = localStorage.getObject('loadCharacter') || false;
 }
 
 function render() {
   loadList();
-  if(loadCharacter){display(loadCharacter)};
+  clear();
+  populateForm();
+  if (modList) {
+    display(loadCharacter);
+  }
+}
+function clear() {
+  if(viewPage){
+  while (viewPage.firstChild) {
+    viewPage.removeChild(viewPage.firstChild);
+  }
+  while (deletePage.firstChild) {
+    deletePage.removeChild(deletePage.firstChild);
+  }
+}
+}
+function handleDelete(event) {
+  event.preventDefault();
+  for (let i = 0; i < sheets.length; i++) {
+    if (deletePage.value === sheets[i].charName) {
+      sheets.splice(i, 1);
+    }
+  }
+  save();
+  render();
 }
 
+function populateForm() {
+  if(viewPage){
+  for (let i = 0; i < sheets.length; i++) {
+    let formTarget = document.createElement('option');
+    formTarget.textContent = sheets[i].charName;
+    viewPage.appendChild(formTarget);
+  }
+  for (let i = 0; i < sheets.length; i++) {
+    let formTarget = document.createElement('option');
+    formTarget.textContent = sheets[i].charName;
+    deletePage.appendChild(formTarget);
+  }
+}
+}
 function display(character) {
+  
+  let strengthModifier = modifier(character.charName.strength);
+  let dexterityModifier = modifier(character.charName.dexterity);
+  let constitutionModifier = modifier(character.charName.constitution);
+  let intelligenceModifier = modifier(character.charName.intelligence);
+  let wisdomModifier = modifier(character.charName.wisdom);
+  let charismaModifier = modifier(character.charName.charisma);
+  let length = statValueList.children;
+  length[0].textContent = `${character.charName.strength}`;
+  length[1].textContent = `${character.charName.dexterity}`;
+  length[2].textContent = `${character.charName.constitution}`;
+  length[3].textContent = `${character.charName.intelligence}`;
+  length[4].textContent = `${character.charName.wisdom}`;
+  length[5].textContent = `${character.charName.charisma}`;
 
+  length = modList.children;
+  length[0].textContent = `${strengthModifier}`;
+  length[1].textContent = `${dexterityModifier}`;
+  length[2].textContent = `${constitutionModifier}`;
+  length[3].textContent = `${intelligenceModifier}`;
+  length[4].textContent = `${wisdomModifier}`;
+  length[5].textContent = `${charismaModifier}`;
 }
 
-//TODO: event listener for load
-
-//TODO: event listener for delete
+if (formDeleteButton) {
+  formDeleteButton.addEventListener('submit', handleDelete);
+}
 
 //DONE: event listener for submit
-submitForm.addEventListener('submit', handleSubmit);
+if (submitForm) {
+  submitForm.addEventListener('submit', handleSubmit);
+}
+if (viewButton) {
+  viewButton.addEventListener('submit', handleView);
+}
+
 render();

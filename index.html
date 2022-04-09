@@ -20,7 +20,21 @@
         </label>
         <label>
           Class
-          <select name="classInput" required="required" id="classInput"><option>Test Value</option></select>
+          <select name="classInput" required="required" id="classInput">
+            <option>Artificer</option>
+            <option>Barbarian</option>
+            <option>Bard</option>
+            <option>Cleric</option>
+            <option>Druid</option>
+            <option>Fighter</option>
+            <option>Monk</option>
+            <option>Paladin</option>
+            <option>Ranger</option>
+            <option>Rogue</option>
+            <option>Sorcerer</option>
+            <option>Warlock</option>
+            <option>Wizard</option>
+          </select>
         </label>
 
         <feildset>
@@ -45,14 +59,20 @@
         </feildset>
         <input type="submit"/>
       </form>
-      <label>
-        View Page
-        <select name="pageSelect" id="characterList"></select>
-      </label>
-      <label>
-        Delete a Character?
-        <select name="deleteSelect" id="deleteList"></select>
-      </label>
+      <form id="viewButton">
+        <label>
+          View Page
+          <select name="pageSelect" id="characterList"></select>
+        </label>
+        <input type="submit">
+      </form>
+      <form id="deleteButton">
+        <label>
+          Delete a Character?
+          <select name="deleteSelect" id="deleteList"></select>
+        </label>
+        <input type="submit">
+      </form>
       <a href="sheet.html">text</a>
     </main>
     <footer></footer>
