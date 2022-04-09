@@ -1,15 +1,17 @@
 'use strict';
 
 //DONE: RNG for disagreements
-function decision() {
-  return Math.floor(Math.random() * (3 - 1 + 1) + 1);
-}
-console.log(decision());
+// function decision() {
+//   return Math.floor(Math.random() * (3 - 1 + 1) + 1);
+// }
+// console.log(decision());
 
 let submitForm = document.getElementById('form');
 let modList = document.getElementById('modList');
 let statValueList = document.getElementById('statValueList');
 let statNameList = document.getElementById('statNameList');
+let viewPage = document.getElementById('characterList');
+let deletePage = document.getElementById('deleteList');
 
 //DONE: constructor function that makes charactersheet
 const Character = function (
@@ -97,8 +99,8 @@ function handleSubmit(event) {
   // Goal: Take our information and make new Character, then store in List
   event.preventDefault();
   // new Character();
-  let newCharacter = addToCharacter();
-  sheets.push.newCharacter;
+  addToCharacter();
+  render();
 }
 let loadCharacter = false;
 function handleDropdown(event) {
@@ -112,7 +114,7 @@ function handleDropdown(event) {
   }
 }
 
-function addToCharacter(event) {
+function addToCharacter() {
   let nameInput = document.getElementById('nameInput').value;
   let classInput = document.getElementById('nameInput').value;
   let raceInput = document.getElementById('raceInput').value;
@@ -134,6 +136,8 @@ function addToCharacter(event) {
     charismaInput
   );
   sheets.push(everyCharacter);
+  console.log(sheets);
+  save();
 }
 
 function loadList() {
@@ -142,11 +146,38 @@ function loadList() {
 
 function render() {
   loadList();
+  clear();
+  populateForm();
   if (loadCharacter) {
     display(loadCharacter);
   }
 }
-
+function clear(){
+  while(viewPage.firstChild){
+    viewPage.removeChild(viewPage.firstChild);
+  }
+  while(deletePage.firstChild){
+    deletePage.removeChild(deletePage.firstChild);
+  }
+}
+function populateForm(){
+for(let i = 0; i < sheets.length; i++){
+  let formTarget = document.createElement('option');
+  formTarget.textContent = sheets[i].charName;
+  console.log(formTarget);
+  console.log(viewPage);
+  viewPage.appendChild(formTarget);
+  
+}
+for(let i = 0; i < sheets.length; i++){
+  let formTarget = document.createElement('option');
+  formTarget.textContent = sheets[i].charName;
+  console.log(formTarget);
+  console.log(viewPage);
+  deletePage.appendChild(formTarget);
+  
+}
+}
 function display(character) {
   let formTarget;
   for (let i = 0; i < modList.length; i++) {
@@ -160,5 +191,11 @@ function display(character) {
 //TODO: event listener for delete
 
 //DONE: event listener for submit
-submitForm.addEventListener('submit', handleSubmit);
+if(submitForm){
+  submitForm.addEventListener('submit', handleSubmit);
+}
+if(viewPage){
+  viewPage.addEventListener('click', handleDropdown);
+}
+
 render();
