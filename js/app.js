@@ -12,6 +12,8 @@ let statValueList = document.getElementById('statValueList');
 let statNameList = document.getElementById('statNameList');
 let viewPage = document.getElementById('characterList');
 let deletePage = document.getElementById('deleteList');
+let formDeleteButton = document.getElementById('deleteButton');
+let viewButton = document.getElementById('viewButton');
 
 //DONE: constructor function that makes charactersheet
 const Character = function (
@@ -103,10 +105,14 @@ function handleSubmit(event) {
   render();
 }
 let loadCharacter = false;
-function handleDropdown(event) {
+function handleView(event) {
+  event.preventDefault();
   let holdObject = localStorage.getObject('sheets');
+  console.log(holdObject);
   for (let i = 0; i < holdObject.length; i++) {
-    if ((event.value = holdObject.name)) {
+    console.log(viewPage.value, holdObject.charName);
+
+    if (viewPage.value === holdObject[i].charName) {
       loadCharacter = new Character(holdObject[i]);
       window.location.replace('sheet.html');
       display(loadCharacter);
@@ -152,31 +158,40 @@ function render() {
     display(loadCharacter);
   }
 }
-function clear(){
-  while(viewPage.firstChild){
+function clear() {
+  while (viewPage.firstChild) {
     viewPage.removeChild(viewPage.firstChild);
   }
-  while(deletePage.firstChild){
+  while (deletePage.firstChild) {
     deletePage.removeChild(deletePage.firstChild);
   }
 }
-function populateForm(){
-for(let i = 0; i < sheets.length; i++){
-  let formTarget = document.createElement('option');
-  formTarget.textContent = sheets[i].charName;
-  console.log(formTarget);
-  console.log(viewPage);
-  viewPage.appendChild(formTarget);
-  
+function handleDelete(event) {
+  event.preventDefault();
+  for (let i = 0; i < sheets.length; i++) {
+    if (deletePage.value === sheets[i].charName) {
+      sheets.splice(i, 1);
+    }
+  }
+  save();
+  render();
 }
-for(let i = 0; i < sheets.length; i++){
-  let formTarget = document.createElement('option');
-  formTarget.textContent = sheets[i].charName;
-  console.log(formTarget);
-  console.log(viewPage);
-  deletePage.appendChild(formTarget);
-  
-}
+
+function populateForm() {
+  for (let i = 0; i < sheets.length; i++) {
+    let formTarget = document.createElement('option');
+    formTarget.textContent = sheets[i].charName;
+    console.log(formTarget);
+    console.log(viewPage);
+    viewPage.appendChild(formTarget);
+  }
+  for (let i = 0; i < sheets.length; i++) {
+    let formTarget = document.createElement('option');
+    formTarget.textContent = sheets[i].charName;
+    console.log(formTarget);
+    console.log(viewPage);
+    deletePage.appendChild(formTarget);
+  }
 }
 function display(character) {
   let formTarget;
@@ -189,13 +204,16 @@ function display(character) {
 //TODO: event listener for load
 
 //TODO: event listener for delete
+if (formDeleteButton) {
+  formDeleteButton.addEventListener('submit', handleDelete);
+}
 
 //DONE: event listener for submit
-if(submitForm){
+if (submitForm) {
   submitForm.addEventListener('submit', handleSubmit);
 }
-if(viewPage){
-  viewPage.addEventListener('click', handleDropdown);
+if (viewButton) {
+  viewButton.addEventListener('submit', handleView);
 }
 
 render();
