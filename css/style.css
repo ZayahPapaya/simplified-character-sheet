@@ -1,3 +1,56 @@
 * {
     box-sizing: border-box;
+    background-color: lightgray; 
 }
+li {
+    display: grid;
+    display: inline-block;
+    column-width: auto;
+    border: solid black;
+} 
+#grid-container {
+    display: grid;
+    position: relative;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+#modList {
+    display: grid;
+    display:inline-block;
+    position: relative;
+    width: auto;
+    height: 10vh;
+}
+
+#backgrounds {
+    display: grid;
+    display:inline-block;
+    flex-direction: row;
+    justify-items: flex-start; 
+    width: auto;
+    background-position: x;
+    left: 0px;
+    z-index: -1;
+}
+#statValueList {
+    display: grid;
+    width: auto;
+    height: 10vh;
+}
+
+#statNameList {
+    display: grid;
+    display:inline-block;
+    position: relative;
+    width: auto;
+    height: 10vh;
+}
+
+
+/* header { 
+background-color: violet;
+border: dashed 5px black;
+display: inline-flex;
+margin: 50px;
+justify-content: space-evenly;
+} */
