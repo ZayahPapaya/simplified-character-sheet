@@ -1,12 +1,14 @@
-# 15
-
+# Class 201
 ## Final Project: Codefellows Character Sheet
 
-A D&D character sheet that is built by user inputs, stores the six stats and saves the results to local storage with the option to clear. 
+A D&D character sheet that is built by user inputs, stores the six stats and saves the results to local storage with the option to clear.
 
-### Author: Aiden/Zayah Lang, Justin Mathieu,  Natalija Germek
+### Authors
+
+Aiden/Zayah Lang, Justin Mathieu,  Natalija Germek
 
 ### Links and Resources
+
 >[Final Presentation Deck](https://docs.google.com/presentation/d/17xOtmu09rdLu9oiC5bMPpU_ofmGuOGwQF210Mpj15LQ/edit?usp=sharing)
 
 >[User Stories](https://github.com/ZayahPapaya/simplified-character-sheet/issues/14)
@@ -15,6 +17,16 @@ A D&D character sheet that is built by user inputs, stores the six stats and sav
 
 >[Wire Frame](img/Character%20Sheet%20Wireframe.png)
 
+>[Fonts](https://fonts.google.com/)
+
+>[Wizards of the Coast](https://company.wizards.com/en)
+
 ### Reflections and Comments
 
-- Teamwork is a must!
+> - Teamwork is a must!
+
+> - console.log(everything);
+
+> - Google everything else!
+
+> - Read the documentation.
