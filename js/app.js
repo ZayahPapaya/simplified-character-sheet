@@ -1,15 +1,9 @@
 'use strict';
 
-//DONE: RNG for disagreements
-// function decision() {
-//   return Math.floor(Math.random() * (3 - 1 + 1) + 1);
-// }
-// console.log(decision());
 let characterName = document.getElementById('name');
 let race = document.getElementById('race');
 let characterClass = document.getElementById('class');
 let backgrounds = document.getElementById('backgrounds');
-
 let submitForm = document.getElementById('form');
 let modList = document.getElementById('modList');
 let statValueList = document.getElementById('statValueList');
@@ -17,8 +11,8 @@ let viewPage = document.getElementById('characterList');
 let deletePage = document.getElementById('deleteList');
 let formDeleteButton = document.getElementById('deleteButton');
 let viewButton = document.getElementById('viewButton');
-let loadCharacter = false;
-//DONE: constructor function that makes charactersheet
+
+
 const Character = function (
   charName,
   charClass,
@@ -41,18 +35,23 @@ const Character = function (
   this.charClass = charClass;
 };
 
+
+let loadCharacter = false;
 let sheets = [];
 
-//DONE: array to character sheets
+Storage.prototype.setObject = function (key, value) {
+  this.setItem(key, JSON.stringify(value));
+};
 
-//DONE: RNG for 1 D 20 (1 twenty sided dice)
+Storage.prototype.getObject = function (key) {
+  let value = this.getItem(key);
+  return value && JSON.parse(value);
+};
+
+
 function getRandomNumber() {
-  // return Math.floor(Math.random(1 * 20) + 1);\
   return Math.floor(Math.random() * (20 - 1 + 1) + 1);
 }
-//console.log(());
-
-//DONE: modulo for stats (for every 2 above 10 in a stat + 1 to the roll and reverse for every two below)
 
 function modifier(stat) {
   stat = stat - 10;
@@ -60,47 +59,26 @@ function modifier(stat) {
   let result = Math.floor(stat);
   return result;
 }
+
 function diceRoll(modifier) {
   let roll = getRandomNumber();
-  console.log(`dice roll is, ${roll + modifier}`);
+  console.log(`dice roll is, ${roll}`);
   let result = roll + modifier;
   return result;
 }
-//Partial: save, load, delete for local storage
+
 function save() {
   localStorage.setObject('sheets', sheets);
   localStorage.setObject('loadCharacter', loadCharacter);
 }
-// function load() {
-//   sheets = localStorage.getObject('sheets');
-// }
-// function delete() {
-//  load();
-// }
 
-//TODO: render function for character sheet
-
-//TODO: dice roll button or event listener (weigh pros/cons)
-
-//Partial: housekeeping: adding markdown files, links
-
-Storage.prototype.setObject = function (key, value) {
-  this.setItem(key, JSON.stringify(value)); //automating the stringify for the setObject that we save into storage.
-};
-
-Storage.prototype.getObject = function (key) {
-  let value = this.getItem(key);
-  return value && JSON.parse(value); //automating the parse for our getObject to pull out of storage.
-};
-
-//List.prototype.addSheet = function (character) {
-//this.sheets.push(character);
-//};
+function loadList() {
+  sheets = localStorage.getObject('sheets') || [];
+  loadCharacter = localStorage.getObject('loadCharacter') || false;
+}
 
 function handleSubmit(event) {
-  // Goal: Take our information and make new Character, then store in List
   event.preventDefault();
-  // new Character();
   addToCharacter();
   render();
 }
@@ -147,10 +125,6 @@ function addToCharacter() {
   save();
 }
 
-function loadList() {
-  sheets = localStorage.getObject('sheets') || [];
-  loadCharacter = localStorage.getObject('loadCharacter') || false;
-}
 
 function render() {
   loadList();
@@ -160,8 +134,9 @@ function render() {
     display(loadCharacter);
   }
 }
+
 function clear() {
-  if(viewPage){
+  if (viewPage) {
     while (viewPage.firstChild) {
       viewPage.removeChild(viewPage.firstChild);
     }
@@ -170,19 +145,10 @@ function clear() {
     }
   }
 }
-function handleDelete(event) {
-  event.preventDefault();
-  for (let i = 0; i < sheets.length; i++) {
-    if (deletePage.value === sheets[i].charName) {
-      sheets.splice(i, 1);
-    }
-  }
-  save();
-  render();
-}
+
 
 function populateForm() {
-  if(viewPage){
+  if (viewPage) {
     for (let i = 0; i < sheets.length; i++) {
       let formTarget = document.createElement('option');
       formTarget.textContent = sheets[i].charName;
@@ -195,6 +161,7 @@ function populateForm() {
     }
   }
 }
+
 function display(character) {
   let strengthModifier = modifier(character.charName.strength);
   let dexterityModifier = modifier(character.charName.dexterity);
@@ -217,7 +184,7 @@ function display(character) {
   length[3].textContent = `${intelligenceModifier}`;
   length[4].textContent = `${wisdomModifier}`;
   length[5].textContent = `${charismaModifier}`;
-  characterName.textContent =`${character.charName.charName}`;
+  characterName.textContent = `${character.charName.charName}`;
   race.textContent = `${character.charName.race}`;
   characterClass.textContent = `${character.charName.charClass}`;
 
@@ -226,18 +193,26 @@ function display(character) {
     length[i].addEventListener('click', imageHandler);
   }
 }
+
+function handleDelete(event) {
+  event.preventDefault();
+  for (let i = 0; i < sheets.length; i++) {
+    if (deletePage.value === sheets[i].charName) {
+      sheets.splice(i, 1);
+    }
+  }
+  save();
+  render();
+}
+
 function imageHandler(event) {
   event.preventDefault();
   loadList();
   let keys = Object.keys(loadCharacter.charName);
-  // console.log(keys);
   let values = Object.values(loadCharacter.charName);
-  // console.log(values);
-
-  console.log(loadCharacter.charName);
   for (let i = 0; i < keys.length; i++) {
     if (keys[i] === event.target.id) {
-      alert (diceRoll(modifier(values[i])));
+      alert(diceRoll(modifier(values[i])));
     }
   }
 }
@@ -245,8 +220,6 @@ function imageHandler(event) {
 if (formDeleteButton) {
   formDeleteButton.addEventListener('submit', handleDelete);
 }
-
-//DONE: event listener for submit
 if (submitForm) {
   submitForm.addEventListener('submit', handleSubmit);
 }
