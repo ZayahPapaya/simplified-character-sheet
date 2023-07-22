@@ -3,6 +3,8 @@
 
 A D&D character sheet that is built by user inputs, stores the six stats and saves the results to local storage with the option to clear.
 
+>[Character Sheet Demo](https://zayahpapaya.github.io/simplified-character-sheet/index.html)
+
 ### Authors
 
 Aiden/Zayah Lang, Justin Mathieu,  Natalija Germek
